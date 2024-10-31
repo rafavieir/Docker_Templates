@@ -1,0 +1,14 @@
+# Baixe a imagem oficial do OpenLiteSpeed
+FROM litespeedtech/openlitespeed:latest
+
+# Copie os arquivos HTML para o diretório padrão do LiteSpeed
+COPY ./public_html /usr/local/lsws/Example/html
+
+# Exponha a porta 8088 (porta padrão do OpenLiteSpeed)
+EXPOSE 8088
+
+# Inicie o servidor LiteSpeed
+CMD ["/usr/local/lsws/bin/lswsctrl", "start"]
+
+# Use o comando tail para manter o container ativo
+CMD ["tail", "-f", "/dev/null"]
