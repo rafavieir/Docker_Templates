@@ -7,6 +7,12 @@ RUN a2enmod rewrite
 # Copie os arquivos do diretório x para o diretório padrão do Apache
 COPY ./app_php/ /var/www/html/
 
+
+# Redirecione os logs do Apache para stdout e stderr
+RUN ln -sfT /dev/stderr /var/log/apache2/error.log \
+    && ln -sfT /dev/stdout /var/log/apache2/access.log
+
+
 # Conceda permissões ao diretório onde os arquivos serão armazenados
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
