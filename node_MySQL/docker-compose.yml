@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  node-app:
+    container_name: node_mysql_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - node_mysql_public_network
+    environment:
+      - NODE_ENV=development
+
+  mysql-db:
+    image: mysql:5.7
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: game_db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - node_mysql_public_network
+    ports:
+      - "3306:3306"
+
+networks:
+  node_mysql_public_network:
+    driver: bridge
+
+volumes:
+  mysql-data:
